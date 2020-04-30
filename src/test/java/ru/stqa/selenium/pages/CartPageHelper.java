@@ -1,6 +1,5 @@
 package ru.stqa.selenium.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,13 +12,13 @@ public class CartPageHelper extends PageBase {
     @FindBy (xpath = "//div[@class='checkout']//a")
     WebElement  goToPurchaseButton;
 
-    @FindBy (xpath = "//div[@id='bg_header']//tr[1]//td[4]")
+    @FindBy (xpath = "(//td[@class='delete_btn'])[1]")
     WebElement deleteButton;
 
     @FindBy (xpath = "//div[contains(@class,'cart_close_btn outl')]")
     WebElement cartCloseButton;
 
-    @FindBy (xpath = "//tr[1]//td[1]//div[3]//a[2]")
+    @FindBy (xpath = "(//a[@class='plus'])[1]")
     WebElement plusButton;
 
     public CartPageHelper(WebDriver driver) {
@@ -34,7 +33,6 @@ public class CartPageHelper extends PageBase {
     public void clearCart() {
         waitUntilElementIsClickable(clearCartButton, 10);
         clearCartButton.click();
-//        waitUntilElementIsVisible(By.xpath("//p[contains(@class,'cart_content')]"), 20);
     }
 
     public void clickCartCloseButton() {
@@ -54,8 +52,7 @@ public class CartPageHelper extends PageBase {
     }
 
     public void clickGoToPurchaseButton() {
-        waitUntilElementIsClickable(driver.findElement(By.xpath("//div[@id='header_cart']//div//div//a")), 20);
-        driver.findElement(By.xpath("//div[@id='header_cart']//div//div//a")).click();
-//        goToPurchaseButton.click();
+        waitUntilElementIsClickable(goToPurchaseButton, 20);
+        goToPurchaseButton.click();
     }
 }

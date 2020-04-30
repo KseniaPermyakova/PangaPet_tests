@@ -11,8 +11,8 @@ public class CartPageTests extends TestBase {
     private LoginPageHelper loginPage;
     private CustomerPageHelper customerPage;
     private CartPageHelper cartPage;
-    private DogWorldPageHelper dogWorldPage;
-    private DryDogFoodPageHelper dryDogFoodPage;
+    private StoreCategoryPageHelper storeCategoryPage;
+    private ProductCategoryPageHelper productCategoryPage;
     private ProductPageHelper productPage;
 
     @BeforeMethod
@@ -21,29 +21,34 @@ public class CartPageTests extends TestBase {
         loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
         customerPage = PageFactory.initElements(driver, CustomerPageHelper.class);
         cartPage = PageFactory.initElements(driver, CartPageHelper.class);
-        dogWorldPage = PageFactory.initElements(driver, DogWorldPageHelper.class);
-        dryDogFoodPage = PageFactory.initElements(driver, DryDogFoodPageHelper.class);
+        storeCategoryPage = PageFactory.initElements(driver, StoreCategoryPageHelper.class);
+        productCategoryPage = PageFactory.initElements(driver, ProductCategoryPageHelper.class);
         productPage = PageFactory.initElements(driver, ProductPageHelper.class);
+    }
+
+    @BeforeMethod
+    public void login() {
+        homePage.openLoginPage();
+        loginPage.waitUntilPageIsLoaded();
+        loginPage.enterLogin(LOGIN)
+                 .enterPassword(PASSWORD)
+                 .clickLogin();
+        customerPage.waitUntilPageIsLoaded();
     }
 
     @Test
     public void addGoodToCart() {
-        //--------Login----------------
-        homePage.openLoginPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.enterLogin(LOGIN);
-        loginPage.enterPassword(PASSWORD);
-        loginPage.clickLogin();
-        customerPage.waitUntilPageIsLoaded();
         int items_counter_start = customerPage.getNumberOfItemsInCart();
         //----------Add good to the cart---------------
-        customerPage.clickDogWorldButton();
-        dogWorldPage.waitUntilPageIsLoaded();
-        dogWorldPage.clickDryDogFoodButton();
-        dryDogFoodPage.waitUntilPageIsLoaded();
-        dryDogFoodPage.clickProductTitle();
+//        customerPage.clickDogWorldButton();
+        customerPage.clickCatWorldButton();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
         productPage.waitUntilPageIsLoaded();
         productPage.clickAddToCartButton();
+        cartPage.waitUntilPageIsLoaded();
         int items_counter_end = customerPage.getNumberOfItemsInCart();
 
         Assert.assertTrue(items_counter_end == items_counter_start + 1);
@@ -52,19 +57,12 @@ public class CartPageTests extends TestBase {
 
     @Test
     public void clearCart() {
-        //---------Login----------------
-        homePage.openLoginPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.enterLogin(LOGIN);
-        loginPage.enterPassword(PASSWORD);
-        loginPage.clickLogin();
-        customerPage.waitUntilPageIsLoaded();
         //----------Add good to the cart---------------
         customerPage.clickDogWorldButton();
-        dogWorldPage.waitUntilPageIsLoaded();
-        dogWorldPage.clickDryDogFoodButton();
-        dryDogFoodPage.waitUntilPageIsLoaded();
-        dryDogFoodPage.clickProductTitle();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
         productPage.waitUntilPageIsLoaded();
         productPage.clickAddToCartButton();
         //----------Clear cart-----------------
@@ -75,20 +73,13 @@ public class CartPageTests extends TestBase {
 
     @Test
     public void deleteGoodFromTheCart() {
-        //--------Login----------------
-        homePage.openLoginPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.enterLogin(LOGIN);
-        loginPage.enterPassword(PASSWORD);
-        loginPage.clickLogin();
-        customerPage.waitUntilPageIsLoaded();
         int items_counter_start = customerPage.getNumberOfItemsInCart();
         //----------Add good to the cart---------------
         customerPage.clickDogWorldButton();
-        dogWorldPage.waitUntilPageIsLoaded();
-        dogWorldPage.clickDryDogFoodButton();
-        dryDogFoodPage.waitUntilPageIsLoaded();
-        dryDogFoodPage.clickProductTitle();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
         productPage.waitUntilPageIsLoaded();
         productPage.clickAddToCartButton();
         //---------Delete good from the cart-------------
@@ -102,19 +93,12 @@ public class CartPageTests extends TestBase {
 
     @Test
     public void changeNumberOfItemsInTheCart() {
-        //--------Login----------------
-        homePage.openLoginPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.enterLogin(LOGIN);
-        loginPage.enterPassword(PASSWORD);
-        loginPage.clickLogin();
-        customerPage.waitUntilPageIsLoaded();
         //----------Add good to the cart---------------
         customerPage.clickDogWorldButton();
-        dogWorldPage.waitUntilPageIsLoaded();
-        dogWorldPage.clickDryDogFoodButton();
-        dryDogFoodPage.waitUntilPageIsLoaded();
-        dryDogFoodPage.clickProductTitle();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
         productPage.waitUntilPageIsLoaded();
         productPage.clickAddToCartButton();
         int items_counter_start = customerPage.getNumberOfItemsInCart();

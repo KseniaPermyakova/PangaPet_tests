@@ -26,6 +26,7 @@ public class HomePageHelper extends PageBase {
   }
 
   public void openLoginPage() {
+    waitUntilElementIsClickable(loginIcon, 20);
     loginIcon.click();
   }
 }

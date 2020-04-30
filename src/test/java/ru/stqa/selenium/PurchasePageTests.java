@@ -11,8 +11,8 @@ public class PurchasePageTests extends TestBase {
     private LoginPageHelper loginPage;
     private CustomerPageHelper customerPage;
     private CartPageHelper cartPage;
-    private DogWorldPageHelper dogWorldPage;
-    private DryDogFoodPageHelper dryDogFoodPage;
+    private StoreCategoryPageHelper storeCategoryPage;
+    private ProductCategoryPageHelper productCategoryPage;
     private ProductPageHelper productPage;
     private PurchasePageHelper purchasePage;
 
@@ -22,36 +22,39 @@ public class PurchasePageTests extends TestBase {
         loginPage = PageFactory.initElements(driver, LoginPageHelper.class);
         customerPage = PageFactory.initElements(driver, CustomerPageHelper.class);
         cartPage = PageFactory.initElements(driver, CartPageHelper.class);
-        dogWorldPage = PageFactory.initElements(driver, DogWorldPageHelper.class);
-        dryDogFoodPage = PageFactory.initElements(driver, DryDogFoodPageHelper.class);
+        storeCategoryPage = PageFactory.initElements(driver, StoreCategoryPageHelper.class);
+        productCategoryPage = PageFactory.initElements(driver, ProductCategoryPageHelper.class);
         productPage = PageFactory.initElements(driver, ProductPageHelper.class);
         purchasePage = PageFactory.initElements(driver, PurchasePageHelper.class);
     }
 
-    @Test
-    public void deleteGood() {
-        //--------Login----------------
+    @BeforeMethod
+    public void login() {
         homePage.openLoginPage();
         loginPage.waitUntilPageIsLoaded();
-        loginPage.enterLogin(LOGIN);
-        loginPage.enterPassword(PASSWORD);
-        loginPage.clickLogin();
+        loginPage.enterLogin(LOGIN)
+                 .enterPassword(PASSWORD)
+                 .clickLogin();
         customerPage.waitUntilPageIsLoaded();
+    }
+
+    @Test
+    public void deleteGood() {
         int items_counter_start = customerPage.getNumberOfItemsInCart();
         //----------Add good to the cart---------------
         customerPage.clickDogWorldButton();
-        dogWorldPage.waitUntilPageIsLoaded();
-        dogWorldPage.clickDryDogFoodButton();
-        dryDogFoodPage.waitUntilPageIsLoaded();
-        dryDogFoodPage.clickProductTitle();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
         productPage.waitUntilPageIsLoaded();
         productPage.clickAddToCartButton();
         //---------Delete good-------------
         cartPage.waitUntilPageIsLoaded();
         cartPage.clickGoToPurchaseButton();
         purchasePage.waitUntilPageIsLoaded();
-        purchasePage.clickDeleteButton();
-        purchasePage.clickOkAlertButton();
+        purchasePage.clickDeleteButton()
+                    .clickOkAlertButton();
         homePage.waitUntilPageIsLoaded();
         int items_counter_end = customerPage.getNumberOfItemsInCart();
 
@@ -60,28 +63,21 @@ public class PurchasePageTests extends TestBase {
 
     @Test
     public void deleteGoodCancel() {
-        //--------Login----------------
-        homePage.openLoginPage();
-        loginPage.waitUntilPageIsLoaded();
-        loginPage.enterLogin(LOGIN);
-        loginPage.enterPassword(PASSWORD);
-        loginPage.clickLogin();
-        customerPage.waitUntilPageIsLoaded();
         int items_counter_start = customerPage.getNumberOfItemsInCart();
         //----------Add good to the cart---------------
         customerPage.clickDogWorldButton();
-        dogWorldPage.waitUntilPageIsLoaded();
-        dogWorldPage.clickDryDogFoodButton();
-        dryDogFoodPage.waitUntilPageIsLoaded();
-        dryDogFoodPage.clickProductTitle();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
         productPage.waitUntilPageIsLoaded();
         productPage.clickAddToCartButton();
         //---------Delete good-------------
         cartPage.waitUntilPageIsLoaded();
         cartPage.clickGoToPurchaseButton();
         purchasePage.waitUntilPageIsLoaded();
-        purchasePage.clickDeleteButton();
-        purchasePage.clickCancelAlertButton();
+        purchasePage.clickDeleteButton()
+                    .clickCancelAlertButton();
 
         purchasePage.clickMyOrdersButton();
         customerPage.waitUntilPageIsLoaded();
@@ -90,33 +86,26 @@ public class PurchasePageTests extends TestBase {
         Assert.assertTrue(items_counter_end == items_counter_start + 1);
     }
 
-//    @Test
-//    public void changeNumberOfItemsInTheCart() {
-//        //---------Login----------------
-//        homePage.openLoginPage();
-//        loginPage.waitUntilPageIsLoaded();
-//        loginPage.enterLogin(LOGIN);
-//        loginPage.enterPassword(PASSWORD);
-//        loginPage.clickLogin();
-//        customerPage.waitUntilPageIsLoaded();
-//        //----------Add good to the cart---------------
-//        customerPage.clickDogWorldButton();
-//        dogWorldPage.waitUntilPageIsLoaded();
-//        dogWorldPage.clickDryDogFoodButton();
-//        dryDogFoodPage.waitUntilPageIsLoaded();
-//        dryDogFoodPage.clickProductTitle();
-//        productPage.waitUntilPageIsLoaded();
-//        productPage.clickAddToCartButton();
-//        //-----------Change number of items in the cart------------
-//        cartPage.waitUntilPageIsLoaded();
-//        cartPage.clickGoToPurchaseButton();
-//        purchasePage.waitUntilPageIsLoaded();
-//        purchasePage.changeNumberOfItems("3");
-//
-//        purchasePage.clickUpdateButton();
-//        purchasePage.clickMyOrdersButton();
-//        customerPage.waitUntilPageIsLoaded();
-//
-//        Assert.assertEquals(customerPage.getNumberOfItemsInCart(), "3");
-//    }
+    @Test
+    public void changeNumberOfItemsInTheCart() {
+        //----------Add good to the cart---------------
+        customerPage.clickDogWorldButton();
+        storeCategoryPage.waitUntilPageIsLoaded();
+        storeCategoryPage.clickProductCategoryButton();
+        productCategoryPage.waitUntilPageIsLoaded();
+        productCategoryPage.clickProductTitle();
+        productPage.waitUntilPageIsLoaded();
+        productPage.clickAddToCartButton();
+        //-----------Change number of items in the cart------------
+        cartPage.waitUntilPageIsLoaded();
+        cartPage.clickGoToPurchaseButton();
+        purchasePage.waitUntilPageIsLoaded();
+        purchasePage.changeNumberOfItems(3);
+
+        purchasePage.clickUpdateButton();
+        purchasePage.clickMyOrdersButton();
+        customerPage.waitUntilPageIsLoaded();
+
+        Assert.assertEquals(customerPage.getNumberOfItemsInCart(), 3);
+    }
 }

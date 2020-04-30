@@ -27,14 +27,16 @@ public class LoginPageHelper extends PageBase {
         waitUntilElementIsClickable(loginButton, 30);
     }
 
-    public void enterLogin(String login) {
+    public LoginPageHelper enterLogin(String login) {
 
         enterValueToTheField(emailField, login);
+        return this;
     }
 
-    public void enterPassword(String password) {
+    public LoginPageHelper enterPassword(String password) {
 
         enterValueToTheField(passwordField, password);
+        return this;
     }
 
     public void clickLogin() {

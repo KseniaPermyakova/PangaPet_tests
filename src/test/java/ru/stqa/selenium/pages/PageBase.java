@@ -1,6 +1,7 @@
 package ru.stqa.selenium.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -89,6 +90,18 @@ public abstract class PageBase {
     field.click();
     field.clear();
     field.sendKeys(value);
+  }
+
+  public void enterValueToAutoCompleteField(WebElement field, String value) {
+    field.click();
+    JavascriptExecutor jse = (JavascriptExecutor)driver;
+    jse.executeScript("arguments[0].value='';", field);
+    field.sendKeys(value);
+  }
+
+  public static int getRandomNumber(int min, int max) {
+    max -= min;
+    return (int) (Math.random() * ++max) + min;
   }
 
 }
